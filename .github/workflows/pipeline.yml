@@ -18,9 +18,8 @@ concurrency:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      should_deploy: ${{ steps.pipeline.outputs.should_deploy }}
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
@@ -62,37 +61,38 @@ jobs:
           set +e
           python -m pipeline.run
           code=$?
-          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           if [ $code -ne 0 ]; then
             echo "Pipeline failed — keeping last good published site (no Pages deploy)."
+            echo "should_deploy=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          exit 0
+          echo "should_deploy=true" >> "$GITHUB_OUTPUT"
 
       - name: Publish state to orphan data branch
-        if: steps.pipeline.outputs.exit_code == '0'
+        if: steps.pipeline.outputs.should_deploy == 'true'
         run: |
           set -e
           work=$(mktemp -d)
-          git clone --branch data "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$work" 2>/dev/null \
-            || {
-              mkdir -p "$work"
-              cd "$work"
-              git init
-              git checkout --orphan data
-              git config user.name "github-actions[bot]"
-              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-              echo "Pipeline state branch. Not used for code." > README.md
-              git add README.md
-              git commit -m "Initialize orphan data branch"
-              git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-              git push -u origin data
-            }
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git clone --branch data --single-branch "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$work"
+          else
+            mkdir -p "$work"
+            cd "$work"
+            git init
+            git checkout --orphan data
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            echo "Pipeline state branch. Not used for code." > README.md
+            git add README.md
+            git commit -m "Initialize orphan data branch"
+            git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push -u origin data
+          fi
           cd "$work"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin data || true
-          rm -rf earthquakes.sqlite events.json events.parquet runs.json meta.json rejected_latest.json .bootstrapped
+          rm -f earthquakes.sqlite events.json events.parquet runs.json meta.json rejected_latest.json .bootstrapped
           cp -a "${{ github.workspace }}/state/." .
           git add -A
           if git diff --cached --quiet; then
@@ -104,17 +104,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Pages
-        if: steps.pipeline.outputs.exit_code == '0'
-        uses: actions/configure-pages@v5
-
       - name: Upload site artifact
-        if: steps.pipeline.outputs.exit_code == '0'
+        if: steps.pipeline.outputs.should_deploy == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site/dist
 
+  deploy:
+    needs: run-pipeline
+    if: needs.run-pipeline.outputs.should_deploy == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        if: steps.pipeline.outputs.exit_code == '0'
         uses: actions/deploy-pages@v4
