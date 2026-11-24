@@ -66,12 +66,66 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     a {{ color: var(--cyan); }}
     footer {{ color: var(--muted); font-size: 0.85rem; padding-bottom: 2rem; }}
     .scatter-wrap {{ position: relative; height: 300px; }}
+    .about-btn {{
+      margin-top: 0.6rem; background: transparent; color: var(--cyan);
+      border: 1px solid var(--cyan); border-radius: 8px; padding: 0.35rem 0.75rem;
+      cursor: pointer; font-size: 0.85rem;
+    }}
+    .about-btn:hover {{ background: rgba(0, 240, 255, 0.08); }}
+    .modal-overlay {{
+      position: fixed; inset: 0; background: rgba(2, 4, 12, 0.82);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000; padding: 1rem;
+    }}
+    .modal-overlay.hidden {{ display: none; }}
+    .modal {{
+      width: min(560px, 100%); background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem 1.35rem 1.1rem; box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+      border-top: 3px solid var(--cyan);
+    }}
+    .modal h2 {{ margin: 0 0 0.65rem; color: var(--cyan); font-size: 1.2rem; }}
+    .modal p {{ margin: 0 0 0.7rem; color: var(--text); font-size: 0.95rem; }}
+    .modal ul {{ margin: 0 0 0.9rem; padding-left: 1.15rem; color: var(--text); font-size: 0.92rem; }}
+    .modal li {{ margin: 0.28rem 0; }}
+    .modal .note {{ color: var(--muted); font-size: 0.85rem; }}
+    .modal-actions {{ display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 0.4rem; }}
+    .modal-actions button {{
+      border-radius: 8px; padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.9rem;
+      border: 1px solid var(--border); background: #14182b; color: var(--text);
+    }}
+    .modal-actions button.primary {{
+      background: rgba(0, 240, 255, 0.12); border-color: var(--cyan); color: var(--cyan);
+    }}
   </style>
 </head>
 <body>
+  <div id="intro-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+    <div class="modal">
+      <h2 id="intro-title">What this project is</h2>
+      <p>
+        This is a portfolio demo by <strong>Rahul Ega</strong>: a small Python data pipeline that runs by itself
+        once a day on GitHub Actions.
+      </p>
+      <ul>
+        <li>Pulls the public USGS earthquake week feed (no API key)</li>
+        <li>Validates records and rejects bad ones with reasons</li>
+        <li>Loads only <strong>new</strong> and <strong>updated</strong> events into SQLite (idempotent upsert)</li>
+        <li>Rebuilds this static dashboard and publishes it to GitHub Pages</li>
+        <li>On failure, keeps the last good data and site instead of publishing bad results</li>
+      </ul>
+      <p class="note">
+        Not an alerting or safety service. Earthquake data courtesy of the U.S. Geological Survey (USGS).
+        Use the page below while explaining: freshness, charts, latest events, and run history.
+      </p>
+      <div class="modal-actions">
+        <button type="button" id="intro-close" class="primary">Got it — show dashboard</button>
+      </div>
+    </div>
+  </div>
   <header>
     <h1>Self-Updating Earthquake Pipeline</h1>
     <p class="sub">Portfolio demo by Rahul Ega. Daily USGS public feed, validated and loaded incrementally.</p>
+    <button type="button" class="about-btn" id="intro-reopen">About this project</button>
     <div id="stale-banner" class="banner" role="status">
       Stale data: the last successful pipeline run is older than 36 hours.
       The dashboard is showing the last good snapshot and was not overwritten by a failed run.
@@ -121,7 +175,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }}
     function el(id) {{ return document.getElementById(id); }}
     function fmt(v) {{ return v == null ? '—' : v; }}
+    function setupIntroModal() {{
+      const overlay = el('intro-modal');
+      const closeBtn = el('intro-close');
+      const reopenBtn = el('intro-reopen');
+      const hide = () => overlay.classList.add('hidden');
+      const show = () => overlay.classList.remove('hidden');
+      closeBtn.addEventListener('click', hide);
+      reopenBtn.addEventListener('click', show);
+      overlay.addEventListener('click', (e) => {{ if (e.target === overlay) hide(); }});
+      document.addEventListener('keydown', (e) => {{ if (e.key === 'Escape') hide(); }});
+      show();
+    }}
     async function main() {{
+      setupIntroModal();
       const meta = await loadJson('meta.json', {{ stale: true, total_events: 0, events_per_day: [], magnitude_distribution: [], quality: {{}}, source: {{}}, disclaimer: '' }});
       const eventsPayload = await loadJson('events.json', {{ events: [] }});
       const runsPayload = await loadJson('runs.json', {{ runs: [] }});
