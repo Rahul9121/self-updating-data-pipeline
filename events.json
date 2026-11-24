@@ -1,7 +1,27 @@
 {
-  "generated_at": "2026-11-24T06:39:40Z",
-  "count": 1916,
+  "generated_at": "2026-11-24T06:41:30Z",
+  "count": 1918,
   "events": [
+    {
+      "event_id": "aka2026xgmlrj",
+      "magnitude": 1.0,
+      "place": "84 km NW of Karluk, Alaska",
+      "event_time_ms": 1795502331420,
+      "event_time": "2026-11-24T06:38:51Z",
+      "updated_ms": 1795502414652,
+      "updated_time": "2026-11-24T06:40:14Z",
+      "longitude": -155.314,
+      "latitude": 58.172,
+      "depth_km": 5.0,
+      "mag_type": "ml",
+      "event_type": "earthquake",
+      "status": "automatic",
+      "tsunami": 0,
+      "significance": 15,
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/aka2026xgmlrj",
+      "title": "M 1.0 - 84 km NW of Karluk, Alaska",
+      "net": "ak"
+    },
     {
       "event_id": "aka2026xgmdbb",
       "magnitude": 1.6,
@@ -23481,6 +23501,26 @@
       "url": "https://earthquake.usgs.gov/earthquakes/eventpage/nc75468532",
       "title": "M 0.4 - 4 km NW of The Geysers, CA",
       "net": "nc"
+    },
+    {
+      "event_id": "aka2026wyoxgn",
+      "magnitude": 1.8,
+      "place": "21 km ENE of Minto, Alaska",
+      "event_time_ms": 1795132500394,
+      "event_time": "2026-11-19T23:55:00Z",
+      "updated_ms": 1795502436790,
+      "updated_time": "2026-11-24T06:40:36Z",
+      "longitude": -148.957,
+      "latitude": 65.253,
+      "depth_km": 10.4,
+      "mag_type": "ml",
+      "event_type": "earthquake",
+      "status": "reviewed",
+      "tsunami": 0,
+      "significance": 50,
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/aka2026wyoxgn",
+      "title": "M 1.8 - 21 km ENE of Minto, Alaska",
+      "net": "ak"
     },
     {
       "event_id": "aka2026wyoupm",
