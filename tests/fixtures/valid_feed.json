@@ -1,0 +1,130 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "generated": 1700000000000,
+    "url": "https://example.test/feed",
+    "title": "fixture",
+    "status": 200,
+    "api": "1.0",
+    "count": 3
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "us1000a",
+      "properties": {
+        "mag": 4.5,
+        "place": "Fiji region",
+        "time": 1700000000000,
+        "updated": 1700000100000,
+        "url": "https://example.test/us1000a",
+        "detail": null,
+        "felt": null,
+        "cdi": null,
+        "mmi": null,
+        "alert": null,
+        "status": "reviewed",
+        "tsunami": 0,
+        "sig": 100,
+        "net": "us",
+        "code": "us1000a",
+        "ids": ",us1000a,",
+        "sources": ",us,",
+        "types": ",origin,",
+        "nst": 10,
+        "dmin": 0.1,
+        "rms": 0.5,
+        "gap": 40,
+        "magType": "mb",
+        "type": "earthquake",
+        "title": "M 4.5 - Fiji region"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          178.1,
+          -17.2,
+          10.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "us1000b",
+      "properties": {
+        "mag": 2.1,
+        "place": "California",
+        "time": 1700001000000,
+        "updated": 1700001100000,
+        "url": "https://example.test/us1000b",
+        "detail": null,
+        "felt": null,
+        "cdi": null,
+        "mmi": null,
+        "alert": null,
+        "status": "reviewed",
+        "tsunami": 0,
+        "sig": 100,
+        "net": "us",
+        "code": "us1000b",
+        "ids": ",us1000b,",
+        "sources": ",us,",
+        "types": ",origin,",
+        "nst": 10,
+        "dmin": 0.1,
+        "rms": 0.5,
+        "gap": 40,
+        "magType": "mb",
+        "type": "earthquake",
+        "title": "M 2.1 - California"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.2,
+          34.1,
+          10.0
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "us1000c",
+      "properties": {
+        "mag": 5.2,
+        "place": "Japan",
+        "time": 1700002000000,
+        "updated": 1700002100000,
+        "url": "https://example.test/us1000c",
+        "detail": null,
+        "felt": null,
+        "cdi": null,
+        "mmi": null,
+        "alert": null,
+        "status": "reviewed",
+        "tsunami": 0,
+        "sig": 100,
+        "net": "us",
+        "code": "us1000c",
+        "ids": ",us1000c,",
+        "sources": ",us,",
+        "types": ",origin,",
+        "nst": 10,
+        "dmin": 0.1,
+        "rms": 0.5,
+        "gap": 40,
+        "magType": "mb",
+        "type": "earthquake",
+        "title": "M 5.2 - Japan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.0,
+          35.0,
+          10.0
+        ]
+      }
+    }
+  ]
+}
