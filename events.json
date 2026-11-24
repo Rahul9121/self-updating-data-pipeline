@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T06:42:28Z",
+  "generated_at": "2026-11-24T06:52:41Z",
   "count": 1918,
   "events": [
     {
@@ -1128,8 +1128,8 @@
       "place": "2 km W of P\u0101hala, Hawaii",
       "event_time_ms": 1795487821370,
       "event_time": "2026-11-24T02:37:01Z",
-      "updated_ms": 1795495271470,
-      "updated_time": "2026-11-24T04:41:11Z",
+      "updated_ms": 1795502758980,
+      "updated_time": "2026-11-24T06:45:58Z",
       "longitude": -155.501159667969,
       "latitude": 19.2045001983643,
       "depth_km": 29.7399997711182,
@@ -20208,8 +20208,8 @@
       "place": "1 km NW of Commerce, CA",
       "event_time_ms": 1795173935140,
       "event_time": "2026-11-20T11:25:35Z",
-      "updated_ms": 1795502142073,
-      "updated_time": "2026-11-24T06:35:42Z",
+      "updated_ms": 1795502676545,
+      "updated_time": "2026-11-24T06:44:36Z",
       "longitude": -118.1665,
       "latitude": 34.00633,
       "depth_km": 15.45,
