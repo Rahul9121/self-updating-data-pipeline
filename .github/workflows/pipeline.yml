@@ -1,0 +1,120 @@
+name: Daily pipeline
+
+on:
+  schedule:
+    # Off-peak UTC: 07:17
+    - cron: "17 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-pipeline
+  cancel-in-progress: false
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore state from orphan data branch
+        run: |
+          mkdir -p state
+          if git fetch origin data:refs/remotes/origin/data 2>/dev/null; then
+            tmp=$(mktemp -d)
+            git archive origin/data | tar -x -C "$tmp"
+            for f in earthquakes.sqlite events.json events.parquet runs.json meta.json rejected_latest.json .bootstrapped; do
+              if [ -f "$tmp/$f" ]; then cp -a "$tmp/$f" state/; fi
+            done
+            echo "Restored state from data branch"
+            ls -la state || true
+          else
+            echo "No data branch yet — bootstrap on first run"
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pipeline
+        id: pipeline
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src
+          PIPELINE_STATE_DIR: ${{ github.workspace }}/state
+          PIPELINE_SITE_DIR: ${{ github.workspace }}/site/dist
+        run: |
+          set +e
+          python -m pipeline.run
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ $code -ne 0 ]; then
+            echo "Pipeline failed — keeping last good published site (no Pages deploy)."
+            exit 0
+          fi
+          exit 0
+
+      - name: Publish state to orphan data branch
+        if: steps.pipeline.outputs.exit_code == '0'
+        run: |
+          set -e
+          work=$(mktemp -d)
+          git clone --branch data "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "$work" 2>/dev/null \
+            || {
+              mkdir -p "$work"
+              cd "$work"
+              git init
+              git checkout --orphan data
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              echo "Pipeline state branch. Not used for code." > README.md
+              git add README.md
+              git commit -m "Initialize orphan data branch"
+              git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+              git push -u origin data
+            }
+          cd "$work"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin data || true
+          rm -rf earthquakes.sqlite events.json events.parquet runs.json meta.json rejected_latest.json .bootstrapped
+          cp -a "${{ github.workspace }}/state/." .
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No state changes"
+          else
+            git commit -m "chore: pipeline state $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push origin data
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Pages
+        if: steps.pipeline.outputs.exit_code == '0'
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        if: steps.pipeline.outputs.exit_code == '0'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        if: steps.pipeline.outputs.exit_code == '0'
+        uses: actions/deploy-pages@v4
