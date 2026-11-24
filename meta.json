@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-11-24T06:52:41Z",
-  "total_events": 1918,
+  "generated_at": "2026-11-24T18:55:41Z",
+  "total_events": 2096,
   "rejected_last_run": 0,
-  "last_success_at": "2026-11-24T06:52:41Z",
+  "last_success_at": "2026-11-24T18:55:41Z",
   "last_run": {
-    "run_id": "20261124T065240Z-e774fd82",
-    "started_at": "2026-11-24T06:52:40Z",
-    "finished_at": "2026-11-24T06:52:41Z",
+    "run_id": "20261124T185541Z-282937f0",
+    "started_at": "2026-11-24T18:55:41Z",
+    "finished_at": "2026-11-24T18:55:41Z",
     "status": "success",
-    "fetched": 1916,
-    "new_count": 0,
-    "updated_count": 2,
-    "unchanged_count": 1914,
+    "fetched": 1928,
+    "new_count": 178,
+    "updated_count": 30,
+    "unchanged_count": 1720,
     "rejected_count": 0,
-    "duration_ms": 562,
+    "duration_ms": 346,
     "message": "ok",
     "is_bootstrap": 0
   },
@@ -23,62 +23,62 @@
   "events_per_day": [
     {
       "date": "2026-11-17",
-      "count": 227
+      "count": 231
     },
     {
       "date": "2026-11-18",
-      "count": 239
+      "count": 240
     },
     {
       "date": "2026-11-19",
-      "count": 279
+      "count": 285
     },
     {
       "date": "2026-11-20",
-      "count": 309
+      "count": 324
     },
     {
       "date": "2026-11-21",
-      "count": 288
+      "count": 300
     },
     {
       "date": "2026-11-22",
-      "count": 251
+      "count": 267
     },
     {
       "date": "2026-11-23",
-      "count": 246
+      "count": 256
     },
     {
       "date": "2026-11-24",
-      "count": 79
+      "count": 193
     }
   ],
   "magnitude_distribution": [
     {
       "bucket": "<2",
-      "count": 1258
+      "count": 1381
     },
     {
       "bucket": "2-3",
-      "count": 434
+      "count": 469
     },
     {
       "bucket": "3-4",
-      "count": 68
+      "count": 79
     },
     {
       "bucket": "4-5",
-      "count": 119
+      "count": 125
     },
     {
       "bucket": "5+",
-      "count": 39
+      "count": 42
     }
   ],
   "quality": {
-    "events_with_coords": 1918,
-    "events_with_magnitude": 1918,
+    "events_with_coords": 2096,
+    "events_with_magnitude": 2096,
     "max_magnitude": 6.8,
     "min_magnitude": -1.26
   },
