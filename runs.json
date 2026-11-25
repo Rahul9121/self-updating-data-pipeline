@@ -1,6 +1,20 @@
 {
-  "generated_at": "2026-11-24T18:55:41Z",
+  "generated_at": "2026-11-25T17:59:40Z",
   "runs": [
+    {
+      "run_id": "20261125T175939Z-dade9d3a",
+      "started_at": "2026-11-25T17:59:39Z",
+      "finished_at": "2026-11-25T17:59:40Z",
+      "status": "success",
+      "fetched": 1961,
+      "new_count": 274,
+      "updated_count": 50,
+      "unchanged_count": 1636,
+      "rejected_count": 1,
+      "duration_ms": 657,
+      "message": "ok",
+      "is_bootstrap": 0
+    },
     {
       "run_id": "20261124T185541Z-282937f0",
       "started_at": "2026-11-24T18:55:41Z",

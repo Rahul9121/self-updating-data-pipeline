@@ -1,4 +1,10 @@
 {
-  "generated_at": "2026-11-24T18:55:41Z",
-  "rejected": []
+  "generated_at": "2026-11-25T17:59:40Z",
+  "rejected": [
+    {
+      "index": 168,
+      "event_id": "aka2026xhqfom",
+      "reason": "magnitude is null (excluded from analytical set)"
+    }
+  ]
 }
