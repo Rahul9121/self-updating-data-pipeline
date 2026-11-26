@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-11-25T17:59:40Z",
-  "total_events": 2370,
+  "generated_at": "2026-11-26T17:45:21Z",
+  "total_events": 2690,
   "rejected_last_run": 1,
-  "last_success_at": "2026-11-25T17:59:40Z",
+  "last_success_at": "2026-11-26T17:45:21Z",
   "last_run": {
-    "run_id": "20261125T175939Z-dade9d3a",
-    "started_at": "2026-11-25T17:59:39Z",
-    "finished_at": "2026-11-25T17:59:40Z",
+    "run_id": "20261126T174520Z-98f30855",
+    "started_at": "2026-11-26T17:45:20Z",
+    "finished_at": "2026-11-26T17:45:21Z",
     "status": "success",
-    "fetched": 1961,
-    "new_count": 274,
-    "updated_count": 50,
-    "unchanged_count": 1636,
+    "fetched": 2006,
+    "new_count": 320,
+    "updated_count": 56,
+    "unchanged_count": 1629,
     "rejected_count": 1,
-    "duration_ms": 657,
+    "duration_ms": 614,
     "message": "ok",
     "is_bootstrap": 0
   },
@@ -51,38 +51,42 @@
     },
     {
       "date": "2026-11-24",
-      "count": 311
+      "count": 348
     },
     {
       "date": "2026-11-25",
-      "count": 142
+      "count": 236
+    },
+    {
+      "date": "2026-11-26",
+      "count": 189
     }
   ],
   "magnitude_distribution": [
     {
       "bucket": "<2",
-      "count": 1566
+      "count": 1776
     },
     {
       "bucket": "2-3",
-      "count": 527
+      "count": 607
     },
     {
       "bucket": "3-4",
-      "count": 94
+      "count": 108
     },
     {
       "bucket": "4-5",
-      "count": 136
+      "count": 147
     },
     {
       "bucket": "5+",
-      "count": 47
+      "count": 52
     }
   ],
   "quality": {
-    "events_with_coords": 2370,
-    "events_with_magnitude": 2370,
+    "events_with_coords": 2690,
+    "events_with_magnitude": 2690,
     "max_magnitude": 6.8,
     "min_magnitude": -1.26
   },
